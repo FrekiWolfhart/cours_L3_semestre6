@@ -1,0 +1,122 @@
+\documentclass[12pt, a4paper, draft]{article}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{enumitem}
+\usepackage{multirow}
+
+\title{Notes de cours de calculabilité}
+\author{Yann Miguel}
+
+\begin{document}
+\ttfamily
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Cours 1}
+Un problème peut être simple à définir, mais ne pas admettre\\une solution algorithmique.
+Par exemple, la suite de Collatz.
+
+\begin{algorithm}
+  \caption{Collatz(n)}
+  \begin{algorithmic}
+    \STATE print n
+    \IF{n=1}
+      \STATE return 0
+    \ELSE
+      \IF{n=0(mod2)}
+        \STATE Collatz(n/2)
+      \ELSE
+        \STATE Collatz(3n+1)
+      \ENDIF
+    \ENDIF
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection{Machine de Turing}
+Il s'agit d'un modèle mathématique abstrait.\\
+\textbf{Définition:}\\
+Une machine de Turing(MT) déterministe est un $\gamma$-uplet
+$$M~=~(Q,\Sigma,\Gamma,\delta,q_0,B,q_F)$$
+où:
+\begin{itemize}
+  \item Q est un ensemble d'états fini
+  \item $\Sigma$ est l'alphabet d'entrée
+  \item $\Gamma$ est l'alphabet de ruban\\(contient tout les
+  symboles pouvant apparaître sur le\\ruban)
+  \item $\delta$ est une fonction de transition
+  \item q$_0\in$Q est l'état initial
+  \item B $\in\Gamma\backslash\Sigma$est un symbole blanc spécial\\(ne fait pas
+  parti de l'alphabet d'entrée)
+  \item q$_F\in$Q est l'état final
+\end{itemize}
+
+Finalisations:\\
+\begin{tabular}{|c|c|}
+  \hline
+  Résultat & Condition\\
+  \hline
+  acceptation & la machine entre et s'arrête sur l'état final\\
+  \hline
+  \multirow{2}{4em}{rejet} & s'arrête dans un état non final\\
+  & la machine ne s'arrête pas\\
+  \hline
+\end{tabular}
+
+\textbf{Définition:}\\
+Une description instantanée(DI) d'une MT décrit sa\\configuration courante.
+C'est un mot
+$$uqav~\in~(\{\epsilon\}\cup(\Gamma\backslash\{B\})\Gamma^*)Q\Gamma(\{\epsilon\}\cup\Gamma^*(\Gamma\backslash\{B\}))$$
+avec:
+\begin{itemize}
+  \item Q, l'état courant
+  \item u, v $\in\Gamma^*$, le contenu du ruban à gauche et à droite de la
+  \\tête, jusqu'au dernier symbole non blanc
+  \item a $\in\Gamma$, le symbole de ruban actuellement sous la tête
+\end{itemize}
+
+\textbf{Définition:}\\
+Un mouvement, une transition, un déplacememnt de la MT à partir\\de la DI
+$\alpha$ = uqav vers la DI suivante $\beta$ sera noté $\alpha\vdash\beta$.\\
+Plus précisement:
+\begin{enumerate}
+  \item Si $\delta$(q, a) = (p, b, L),
+  \begin{itemize}
+    \item si u = $\epsilon$, alors $\beta$ = pBbv
+    \\(potentiellement en supprimantles B à la fin de bv)
+    \item si u = u'c avec c $\in\Gamma$ alors $\beta$ = u'pcbv
+    \\(potentiellement en supprimant les B à la fin de bv)
+  \end{itemize}
+  \item si $\delta$(q, a) = (p, b, R)
+  \begin{itemize}
+    \item si v = $\epsilon$ alors $\beta$ = ubpB
+    \\(potentiellement en supprimant les B au début de ub)
+    \item si v $\neq\epsilon$ alors $\beta$ = ubpv
+    \\(potentiellement en supprimant les B au début de ub)
+  \end{itemize}
+  \item si $\delta$(q, a) est indéfini, alors
+  \\aucun mouvement n'est possible depuis $\alpha$ et $\alpha$ est une DI\\d'arrêt.
+  Si q = q$_F$, alors $\alpha$ est une DI acceptante.
+\end{enumerate}
+
+\newpage
+
+\section{Contact/MCC}
+
+\begin{tabular}{|c|c|}
+  \hline
+  Type & Lien\\
+  \hline
+  site & aeporreca.org/calculabilite(ou le lien discord)\\
+  mail & antonio.porreca@lis-lab.fr\\
+  note & 0.2*CC+0.8*ET\\
+  \hline
+\end{tabular}
+
+\end{document}

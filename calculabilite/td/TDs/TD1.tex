@@ -1,0 +1,232 @@
+\section{TD1}
+
+\subsection{Exercice 1}
+
+\subsubsection{Question 1}
+
+Cinq éléments de l'ensemble $\mathbb{N}$ x \{0, 1, a\} sont:
+\begin{enumerate}
+  \item (0, 0)
+  \item (0, 1)
+  \item (0, a)
+  \item (1, 0)
+  \item (1, 1)
+\end{enumerate}
+
+Cela revient donc à faire le produit carthésien entre l'ensemble $\mathbb{N}$ et
+\\ l'ensemble \{0, 1, a\}.
+
+\subsubsection{Question 2}
+
+Une bijection de $\mathbb{N}$ dans 2$\mathbb{N}$ est:
+$$f~:~x\rightarrow2x$$
+
+\subsubsection{Question 3}
+
+Une bijection de $\mathbb{N}$ dans $\mathbb{N}$x$\mathbb{N}$ est :
+$$g~:~(x,y)\rightarrow\frac{(x+y)(x+y-1)}{2}+y$$
+
+\subsubsection{Question 4}
+
+Une bijection de $\mathbb{N}$ dans $\mathbb{N}$x$\mathbb{N}$x$\mathbb{N}$ est:
+$$h~:~(x,y,z)\rightarrow g(g(x,y),z)$$
+
+\newpage
+
+\subsection{Exercice 2}
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial] at (0,1) (q0){start};
+    \node[state] at (2,2) (q1){a first};
+    \node[state] at (2,0) (q2){b first};
+    \node[state, accepting] at (4, 1) (q3){end};
+    \draw[->] (q0) edge[bend left, above]  node{$a,a,R$} (q1)
+              (q0) edge[bend right, below] node{$b,b,R$} (q2)
+              (q0) edge[below]             node{$B,B,R$} (q3)
+              (q1) edge[loop above]        node{$\begin{matrix} a,a,R\\b,b,R \end{matrix}$} (q1)
+              (q1) edge[bend left, above]  node{$B,a,R$} (q3)
+              (q2) edge[loop below]        node{$\begin{matrix} a,a,R\\b,b,R \end{matrix}$} (q2)
+              (q2) edge[bend right, below] node{$B,b,R$} (q3);
+  \end{tikzpicture}
+  \caption{Cette machine de turing rajoute la première lettre d'un mot à la fin du dit mot.}
+\end{figure}
+
+\subsection{Exercice 3}
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial] at (0,1) (q0){start};
+    \node[state] at (2,2) (q1){a first};
+    \node[state] at (2,0) (q2){b first};
+    \node[state, accepting] at (4, 1) (q3){end};
+    \draw[->] (q0) edge[bend left, above]      node{$a,a,R$} (q1)
+              (q0) edge[bend right, below]     node{$b,b,R$} (q2)
+              (q0) edge[in=60, out=120, above] node{$B,a,R$} (q3)
+              (q1) edge[in=230, out=200, loop] node{$a,a,R$} (q1)
+              (q1) edge[bend left, above]      node{$b,a,R$} (q2)
+              (q1) edge[bend left, above]      node{$B,a,R$} (q3)
+              (q2) edge[bend left, below]      node{$a,b,R$} (q1)
+              (q2) edge[loop below]            node{$b,b,R$} (q2)
+              (q2) edge[bend right, below]     node{$B,b,R$} (q3);
+  \end{tikzpicture}
+  \caption{Machinde de turing de décalage avec ajout de a au début}
+\end{figure}
+
+\newpage
+
+\subsection{Exercice 4}
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial]   at (-6,1)  (0){q0};
+    \node[state]            at (-4,2)  (1){q1};
+    \node[state]            at (-2,2)  (2){q2};
+    \node[state]            at (-2,0)  (3){q3};
+    \node[state]            at (-4,0)  (4){q4};
+    \node[state]            at (-1,1)  (5){q5};
+    \node[state]            at (0,2)   (6){q6};
+    \node[state]            at (0,0)   (7){q7};
+    \node[state]            at (2,2)   (8){q8};
+    \node[state, accepting] at (2,0)   (9){q9};
+    \draw[->] (0) edge[bend left, above]  node{$x,\bar{x},R$}                                        (1)
+              (1) edge[loop above]        node{$\begin{matrix}a,a,R\\b,b,R\end{matrix}$}             (1)
+              (1) edge[above]             node{$\begin{matrix}\bar{x},\bar{x},R\\B,B,R\end{matrix}$} (2)
+              (2) edge[above]             node{$x,\bar{x}, L$}                                       (3)
+              (3) edge[below]             node{$\bar{x},\bar{x},R$}                                  (5)
+              (3) edge[above]             node{$\begin{matrix}a,a,L\\b,b,L\end{matrix}$}             (4)
+              (4) edge[loop below]        node{$\begin{matrix}a,a,L\\b,b,L\end{matrix}$}             (4)
+              (4) edge[bend left, below]  node{$\bar{x},\bar{x},R$}                                  (0)
+              (5) edge[bend left, above]  node{$\bar{a},a,R$}                                        (6)
+              (5) edge[bend right, below] node{$\bar{b},a,R$}                                        (7)
+              (6) edge[bend left, above]  node{$\bar{b},\bar{a},R$}                                  (7)
+              (6) edge[loop above]        node{$\bar{a},\bar{a},R$}                                  (6)
+              (6) edge[bend left, above]  node{$B,\bar{a},R$}                                        (8)
+              (7) edge[bend left, below]  node{$\bar{a},\bar{b},R$}                                  (6)
+              (7) edge[loop below]        node{$\bar{b},\bar{b},R$}                                  (7)
+              (7) edge[bend right, below] node{$B,\bar{b},R$}                                        (8)
+              (8) edge[loop above]        node{$\begin{matrix}\bar{x},\bar{x},L\\x,x,L\end{matrix}$} (8)
+              (8) edge[bend left, above]  node{$B,B,R$}                                              (9);
+  \end{tikzpicture}
+  \caption{Utilisation d'une MT pour en faire une autre}
+\end{figure}
+
+\subsection{Exercice 5}
+\subsubsection{Question 1}
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial]   at (0,0) (0){q0};
+    \node[state, accepting] at (2,0) (1){q1};
+    \draw[->] (0) edge[above] node{$a,a,R$} (1);
+  \end{tikzpicture}
+  \caption{Vérifie qu'un mot commence par a}
+\end{figure}
+
+\subsubsection{Question 2}
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial]   at (0,2) (0){q0};
+    \node[state]            at (4,2) (1){q1};
+    \node[state]            at (2,0) (2){q2};
+    \node[state, accepting] at (0,4) (f){qf};
+    \draw[->] (0) edge[left]  node{$B,B,R$}                                  (f)
+              (0) edge[above] node{$\begin{matrix}a,a,R\\b,b,R\end{matrix}$} (1)
+              (1) edge[right] node{$\begin{matrix}a,a,R\\b,b,R\end{matrix}$} (2)
+              (2) edge[left] node{$\begin{matrix}a,a,R\\b,b,R\end{matrix}$}  (0);
+  \end{tikzpicture}
+  \caption{Longueur du mot est modulo 3}
+\end{figure}
+\newpage
+
+\subsubsection{Question 4}
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial]   at (0,2) (0){q0};
+    \node[state]            at (4,2) (1){q1};
+    \node[state]            at (6,0) (2){q2};
+    \node[state, accepting] at (8,2) (f){qf};
+    \draw[->] (0) edge[loop above] node{$\begin{matrix}0,0,R\\1,1,R\end{matrix}$} (0)
+              (0) edge[above]      node{$B,B,L$}                                  (1)
+              (1) edge[above]      node{$0,1,L$}                                  (f)
+              (1) edge[left]       node{$1,0,L$}                                  (2)
+              (2) edge[loop above] node{$1,0,L$}                                  (2)
+              (2) edge[right]      node{$0,1,L$}                                  (f);
+  \end{tikzpicture}
+  \caption{Fonction d'incrémentation binaire}
+\end{figure}
+
+\subsubsection{Question 5}
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial]   at (0,2) (0){q0};
+    \node[state]            at (4,2) (1){q1};
+    \node[state]            at (6,0) (2){q2};
+    \node[state, accepting] at (8,2) (f){qf};
+    \draw[->] (0) edge[loop above] node{$\begin{matrix}0,0,R\\1,1,R\end{matrix}$} (0)
+              (0) edge[above]      node{$B,B,L$}                                  (1)
+              (1) edge[above]      node{$1,0,R$}                                  (f)
+              (1) edge[left]       node{$0,1,L$}                                  (2)
+              (2) edge[loop above] node{$0,1,L$}                                  (2)
+              (2) edge[right]      node{$1,0,R$}                                  (f);
+  \end{tikzpicture}
+  \caption{Fonction de décrémentation binaire}
+\end{figure}
+\newpage
+
+\subsubsection{Question 6}
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial]   at (0,2)  (0){q0};
+    \node[state]            at (4,2)  (1){q1};
+    \node[state]            at (8,2)  (2){q2};
+    \node[state]            at (12,2) (3){q3};
+    \node[state]            at (4,-2) (4){q4};
+    \node[state, accepting] at (8,-2) (f){qf};
+    \draw[->] (0) edge[above]             node{$a,\bar{a},R$}                                                                  (1)
+              (0) edge[left]              node{$\bar{b},\bar{b},R$}                                                            (4)
+              (0) edge[left]              node{$B,B,R$}                                                                        (f)
+              (1) edge[loop below]        node{$\begin{matrix}\bar{b},\bar{b},R\\a,a,R\end{matrix}$}                           (1)
+              (1) edge[above]             node{$b,\bar{b},R$}                                                                  (2)
+              (2) edge[loop below]        node{$\begin{matrix}\bar{c},\bar{c},R\\b,b,R\end{matrix}$}                           (2)
+              (2) edge[above]             node{$c,\bar{c},L$}                                                                  (3)
+              (3) edge[bend right, above] node{$\bar{a},\bar{a},R$}                                                            (0)
+              (3) edge[loop below]        node{$\begin{matrix}a,a,L\\b,b,L\\\bar{a},\bar{a},L\\\bar{b},\bar{b},L\end{matrix}$} (3)
+              (4) edge[below]             node{$B,B,R$}                                                                        (f)
+              (4) edge[loop below]        node{$\begin{matrix}\bar{b},\bar{b},R\\\bar{c},\bar{c},R\end{matrix}$}               (4);
+  \end{tikzpicture}
+  \caption{Autant de a que de b que de c}
+\end{figure}
+\newpage
+
+\subsubsection{Question 7}
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial]   at (0,0)  (0){q0};
+    \node[state]            at (4,0)  (1){q1};
+    \node[state]            at (8,0)  (2){q2};
+    \node[state]            at (4,2)  (3){q3};
+    \node[state]            at (4,-2) (4){q4};
+    \node[state, accepting] at (8,-2) (f){qf};
+    \draw[->] (0) edge[above]      node{$a,\bar{a},R$}                                        (1)
+              (0) edge[below]     node{$\begin{matrix}B,B,R\\\bar{b},\bar{b},R\end{matrix}$} (4)
+              (1) edge[above]      node{$a,\bar{a},R$}                                        (2)
+              (1) edge[right]      node{$\begin{matrix}B,B,R\\\bar{b},\bar{b},R\end{matrix}$} (4)
+              (2) edge[right]      node{$b,\bar{b},L$}                                        (3)
+              (2) edge[loop above] node{$\begin{matrix}\bar{b},\bar{b},R\\a,a,R\end{matrix}$} (2)
+              (3) edge[left]       node{$\bar{a},\bar{a},R$}                                  (0)
+              (3) edge[loop above] node{$\begin{matrix}\bar{b},\bar{b},L\\a,a,L\end{matrix}$} (3)
+              (4) edge[below]      node{$B,B,L$}                                              (f)
+              (4) edge[loop below] node{$\bar{b},\bar{b},R$}                                  (4);
+  \end{tikzpicture}
+  \caption{Moitié moins de b que de a}
+\end{figure}
+

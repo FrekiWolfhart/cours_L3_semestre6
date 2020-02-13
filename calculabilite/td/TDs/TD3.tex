@@ -1,0 +1,111 @@
+\section{TD3}
+
+\subsection{Exercice 1}
+
+\subsubsection{Question 1}
+
+L'énoncé est vrai car le théorème de l'arrêt dit exactement cela.
+
+\subsubsection{Question 2}
+
+L'énoncé est faux, car il existe une machine, la machine qui accepte tout, qui va tout le temps s'arrêter, peu impote les entrées.\\
+Si les entrées s'arrêtent, on prends la machine qui s'arrête tout le temps. Sinon, on prends celle qui ne s'arrête jamais.\\
+Par conséquent, $\forall \langle\ M\ \rangle \!\ ,w~\exists~M_{halt}(\langle\ M\ \rangle \!\ , w)~=~halt(\langle\ M\ \rangle \!\ , w)$
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial, accepting] (0){acc};
+  \end{tikzpicture}
+  \caption{Machine qui accepte tout}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial] (0){ref};
+  \end{tikzpicture}
+  \caption{Machine qui refuse tout}
+\end{figure}
+
+\subsection{Exercice 2}
+
+La réduction est une fonction $f:~\langle\ M\ \rangle \!\ \rightarrow f(\langle\ M\ \rangle \!\ )$.
+
+\subsubsection{Question 1}
+
+g(M) est une machine qui supprime aa puis lance la machine M.
+
+Réduction:
+\begin{itemize}
+  \item Si M s'arrête sur 0, g(M) commence par supprimer aa, puis fait tourner M sur ce qu'il reste,\\
+  c'est-à-dire 0, et donc g(M) termine sur aa.
+  \item g(M) s'arrête sur aa. Hors, g(M) commence par supprimer aa puis lance la machine M, qui s'arrête sur 0.\\
+  Donc, si g(M) s'arrête sur aa, M va s'arrêter sur 0, qui est le reste.
+\end{itemize}
+
+Donc, par définition de f, $\langle\ M\ \rangle \!\ \in L_{halte} \leftrightarrow f(\langle\ M\ \rangle \!\ )\in A$.
+
+Le langage L$_{halte}$ n'étant pas récursif, sa réduction ne l'est pas non plus.\\
+Cette réduction pouvant se faire dans l'autre sens, les deux problèmes sont de difficulté équivalentes.
+
+
+\subsubsection{Question 2}
+
+f(M) est une fonction qui prends $\langle\ M\ \rangle \!\ $ et un mot w et qui donne $\langle\ M'\ \rangle \!\ $.\\
+Cette fonction dit que M' accepte a si et seulement si M accepte w.
+
+On veut donc que la machine M', machine associée à f($\langle\ M\ \rangle \!\ $), supprime a, écrive w, retourne à gauche du mot, et lance M.
+
+Réduction:
+\begin{itemize}
+  \item M accepte w par définition de L$_u$.\\
+  Si on lance la machine M' sur a,\\
+  alors elle supprime le a, écrit le w, retourne à gauche du mot, et accepte w.\\
+  Par conséquent, la machine M' a accepté l'entrée a, et f($\langle\ M\ \rangle \!\ $ \# w) $\in$ B.
+  \item Si f($\langle\ M\ \rangle \!\ $ \# w) $\in$ B, alors la machine M' accepte a.\\
+  Or, M' efface a, écrit w et lance M sur w, ce qui veut dire que M accepte w.\\
+  Donc, $\langle\ M\ \rangle \!\ $ \# w$\in$L$_u$.
+\end{itemize}
+
+\subsubsection{Question 3}
+
+f(M) est une fonction qui prends $\langle\ M\ \rangle \!\ $ et un mot w et qui donne $\langle\ M'\ \rangle \!\ $.\\
+Cette fonction dit que  M' refuse w mais accepte bbw si et seulement si M refuse w.
+
+On veut donc que la machine M' puisse vérifier si son entrée est bbw.\\
+Si c'est le cas, elle l'accepte. Sinon, elle lance M.
+
+Réduction:
+\begin{itemize}
+  \item Si $\langle\ M\ \rangle \!\ $ \# w $\in$ L$_{\bar{u}}$, alors M n'accepte pas w.\\
+  Posons $\langle\ M'\ \rangle \!\ $ \# w = f($\langle\ M\ \rangle \!\ $), w $\neq$ bbw,\\
+  alors si on lance M' sur w, elle lance M sur w, et n'accepte pas.\\
+  De plus, par définition, de M', M' accepte bbw. Donc, f($\langle\ M\ \rangle \!\ $) $\in$ C.
+  \item Si $\langle\ M'\ \rangle \!\ $ \# w = f($\langle\ M\ \rangle \!\ $) $\in$ C.
+  \begin{itemize}
+    \item M' accepte bbw
+    \item M' n'accepte pas w
+    \item Donc, M' sur w lance M sur w, donc M n'accepte pas w.
+  \end{itemize}
+  Donc, $\langle\ M\ \rangle \!\ $ \# w $\in$ L$_{\bar{u}}$.
+\end{itemize}
+
+
+\subsubsection{Question 4}
+
+f(M) est une fonction qui prends un mot w et qui retourne le même mot précédé par un a.
+Cette fonction dit que M' accepte aw si et seulement si M accepte w.
+
+Il suffit juste que M' prenne un mot w accepté par M, lui rajoute un a en première lettre, et accepte le mot.
+
+\begin{itemize}
+  \item Si L est récursif, on ne peux rien en déduire.
+  \item Si aL est récursif, alors L est récursif.
+  \item Si L n'est pas récursif, alors aL ne l'est pas.
+  \item Si L est récursivement énumérable, alors on ne peux rien en déduire.
+  \item Si aL est récursivement énumérable, alors L est récursivement énumérable.
+  \item Si L n'est pas récursivement énumérable, alors aL ne l'est pas.
+\end{itemize}
+
+\subsubsection{Question 5}

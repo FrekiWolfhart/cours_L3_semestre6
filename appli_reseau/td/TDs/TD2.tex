@@ -1,0 +1,78 @@
+\section{TD2}
+
+\subsection{Exercice 1}
+
+\subsubsection{Question 1}
+
+Afin de représenter l'adresse de ce serveur, on utilise la classe InetAddress de Java.
+
+\subsubsection{Question 2}
+
+\begin{lstlisting}[language=Java]
+  public static InetAddress getInetAddressByName(String hostname){
+    return InetAddress.getByName(hostname);
+  }
+\end{lstlisting}
+
+\subsection{Exercice 2}
+
+\subsubsection{Question 1}
+
+Les classes importantes pour UDP sont DatagramSocket et DatagramPacket.
+
+\subsubsection{Question 2}
+
+Afin de créer un DatagramPacket, un client à besoin de:
+\begin{itemize}
+  \item Le buffer.
+  \item La taille du buffer.
+  \item L'adresse du serveur.
+  \item Le port d'écriture.
+\end{itemize}
+
+\subsubsection{Question 3}
+
+\begin{lstlisting}[language=Java]
+  public static void receiveTextFromUdp(){
+    DatagramSocket s = new DatagramSocket(ssss);
+    byte msg[]= new byte[10];
+    DatagramPacket n = new DatagramPacket(msg, 40);
+    s.receive(in);
+    System.out.println(new String(msg));
+    s.close();
+  }
+\end{lstlisting}
+
+\subsection{Exercice 3}
+
+\subsubsection{Question 1}
+
+La différence entre les transmission UDP et TCP est que UDP envoie un flux unidirectionnel et plus rapides, mais a des pertes,
+alors que le TCP est plus lent mais n'a aucune perte.
+
+\subsubsection{Question 2}
+
+Les données UDP se transmettent plus vite.
+
+\subsubsection{Question 3}
+
+\begin{lstlisting}
+  Socket s = new Socket(adresse, port);
+  ObjectOutputStream output = new ObjectOutputStream(s.getOutputStream);
+  ObjectInputStream input = new ObjectInputStream(s.getInputStream);
+  input.read();
+  output.write();
+  s.close();
+\end{lstlisting}
+
+\subsubsection{Question 4}
+
+\begin{lstlisting}[language=Java]
+  public static void receiveMessageTCP(){
+    Socket s = new Socket(myServer, ssss);
+    InputStream in = s.getInputStream();
+    BufferedReader b = new BufferedReader(new InputStreamReader(in));
+    System.out.println(b.readline());
+    s.close();
+  }
+\end{lstlisting}

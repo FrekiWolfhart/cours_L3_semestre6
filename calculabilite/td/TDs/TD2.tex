@@ -1,0 +1,225 @@
+\section{TD2}
+
+\subsection{Exercice 1}
+\subsubsection{Question 1}
+Oui.
+\subsubsection{Question 2}
+Oui.
+\subsubsection{Question 3}
+Oui.
+
+\subsection{Exercice 4}
+
+\subsubsection{Questions 1 et 2}
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial]   at (0,0) (0){q0};
+    \node[state, accepting] at (2,0) (f){qf};
+    \draw[->] (0) edge[loop above] node{$1,1,R$} (0)
+              (0) edge[above]      node{$B,B,L$} (f);
+  \end{tikzpicture}
+  \caption{Machine acceptant tout les mots composés que de 1 ou le mot nul}
+\end{figure}
+
+\subsubsection{Question 3}
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial]   at (0,0) (0){q0};
+    \node[state]            at (2,0) (1){q1};
+    \node[state, accepting] at (4,0) (f){qf};
+    \draw[->] (0) edge[loop above] node{$\begin{matrix}1,1,R\\0,0,R\end{matrix}$} (0)
+              (0) edge[above]      node{$B,B,L$}                                  (1)
+              (1) edge[above]      node{$\begin{matrix}1,1,L\\0,B,R\end{matrix}$} (f);
+  \end{tikzpicture}
+  \caption{Machine en binaire qui retourne l'entier si il est impair ou sa moitié si il est pair}
+\end{figure}
+\newpage
+
+\subsubsection{Question 4}
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial]   at (0,0) (0){q0};
+    \node[state]            at (2,0) (1){q1};
+    \node[state]            at (4,0) (2){q2};
+    \node[state, accepting] at (6,0) (f){qf};
+    \draw[->] (0) edge[above]      node{$1,1,L$} (1)
+              (1) edge[above]      node{$B,1,R$} (2)
+              (2) edge[loop above] node{$1,0,R$} (2)
+              (2) edge[above]      node{$B,B,L$} (f);
+  \end{tikzpicture}
+  \caption{Machine qui prends un nombre en unaire et renvoie son exposant de 2 en binaire}
+\end{figure}
+
+\subsection{Exercice 5}
+
+\subsubsection{Question 1}
+On peux faire cela facilement avec une machine à deux curseurs, un tout à gauche du mot, et un tout à droite.
+
+\subsubsection{Question 2}
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial]   at (0,0) (0){q0};
+    \node[state]            at (2,0) (1){q1};
+    \node[state]            at (4,0) (2){q2};
+    \node[state]            at (6,0) (3){q3};
+    \node[state, accepting] at (8,0) (f){qf};
+    \draw[->] (0) edge[above] node{$x,x,R$} (1)
+              (1) edge[above] node{$a,a,R$} (2)
+              (2) edge[above] node{$x,x,R$} (3)
+              (3) edge[above] node{$b,b,R$} (f);
+  \end{tikzpicture}
+  \caption{Machine vérifiant que la seconde lettre du mot est un a et que la quatrième lettre du mot est un b}
+\end{figure}
+
+\subsubsection{Question 3}
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial]   at (0,0) (0){q0};
+    \node[state]            at (2,0) (1){q1};
+    \node[state, accepting] at (4,0) (f){qf};
+    \draw[->] (0) edge[loop above] node{$\begin{matrix}0,0,R\\1,1,R\end{matrix}$} (0)
+              (0) edge[above]      node{$B,0,R$}                                  (1)
+              (1) edge[above]      node{$B,0,R$}                                  (2);
+  \end{tikzpicture}
+  \caption{Machine prenant un entier en binaire et sortant son multiple par 4 en binaire (4=2x2)}
+\end{figure}
+\newpage
+
+\subsubsection{Question 4}
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial]   at (0,0)   (0){q0};
+    \node[state]            at (2,0)   (1){q1};
+    \node[state]            at (4,0)   (2){q2};
+    \node[state]            at (5,2)   (a){qa};
+    \node[state]            at (5,-2)  (b){qb};
+    \node[state]            at (6,0)   (3){q3};
+    \node[state]            at (0,-2)  (4){q4};
+    \node[state, accepting] at (-2,-2) (f){qf};
+    \draw[->] (0) edge[loop above] node{$\begin{matrix}a,a,R\\b,b,R\end{matrix}$}                         (0)
+              (0) edge[above]      node{$B,\#,L$}                                                         (1)
+              (1) edge[loop above] node{$\begin{matrix}a,a,L\\b,b,L\end{matrix}$}                         (1)
+              (1) edge[above]      node{$B,B,R$}                                                          (2)
+              (2) edge[left]       node{$a,\bar{a},R$}                                                    (a)
+              (2) edge[left]       node{$b,\bar{b},R$}                                                    (b)
+              (2) edge[below]      node{$\#,\#,L$}                                                        (4)
+              (a) edge[loop above] node{$\begin{matrix}a,a,R\\b,b,R\\\#,\#,R\end{matrix}$}                (a)
+              (a) edge[below]     node{$B,a,L$}                                                           (3)
+              (b) edge[loop below] node{$\begin{matrix}a,a,R\\b,b,R\\\#,\#,R\end{matrix}$}                (b)
+              (b) edge[right]      node{$B,b,L$}                                                          (3)
+              (3) edge[loop above] node{$\begin{matrix}a,a,L\\b,b,L\\\#,\#,L\end{matrix}$}                (3)
+              (3) edge[below]      node{$\begin{matrix}\bar{a},\bar{a},R\\\bar{b},\bar{b},R\end{matrix}$} (2)
+              (4) edge[loop below] node{$\begin{matrix}\bar{a},a,L\\\bar{b},b,L\end{matrix}$}             (4)
+              (4) edge[above]      node{$B,B,L$}                                                          (f);
+  \end{tikzpicture}
+  \caption{Machine de $\Sigma^*$ vers $\Gamma^*$ telle que f(w)=w\#w}
+\end{figure}
+
+\subsubsection{Question 5}
+
+Définition machine:
+\begin{itemize}
+  \item on compare les tailles, refusé si x2 a une taille inférieure à x1.
+  \item si ils sont de tailles égales, on fait une comparaison bit à bit.
+\end{itemize}
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+  \node[state, initial] at (0,0) (0){q0};
+  \end{tikzpicture}
+  \caption{Machine reconnaissant x1\#x2 avec x1 < x2 (en binaire)}
+\end{figure}
+\newpage
+
+\subsection{Exercice 6}
+
+\subsubsection{Question 1}
+
+\subsubsection{Question 2}
+
+\subsubsection{Question 3}
+
+$$[0,1]~\subseteq~\mathbb{R}~\Rightarrow~|[0,1]|~\leq~|\mathbb{R}|$$
+$$\arctan(2x+1)~est~une~surjection~de~[0,1]~vers~\mathbb{R}$$
+
+\subsubsection{Question 4}
+
+$$f~:~x~\rightarrow~(x,1)~est~une~injection~de~\mathbb{R}~dans~\mathbb{R}\times\mathbb{R}$$
+$$Entremeller~deux~réels~est~une~injection~de~\mathbb{R}\times\mathbb{R}~dans~\mathbb{R}$$
+
+\subsection{Exercice 7}
+
+Encodage d'une machine:
+\begin{itemize}
+  \item commence par 111 pour indiquer le début de la machine
+  \item on mets autant de 0 que d'états
+  \item on mets 11 pour indiquer la fin des états
+  \item on mets autant de 0 que de lettres sur le ruban de travail
+  \item on mets 11 pour indiquer la fin des lettres
+  \item on encode les transitions, en les séparant par des 11, et on encode les états et symboles par un nombre de 0 équivalent à leur position (de 1 à n)
+  tout en séparant chaque partie de la transuition par 1
+  \item on note R=0 et L=00
+  \item on termine la machine par 111
+\end{itemize}
+
+Application:
+$$(M)=111~000~11~000~11~01010010010~11~001001001010~11~00100010001000100~111$$
+
+Des espaces ont été ajoutés afin de clarifier la lecture.
+\newpage
+
+\subsection{Exercice 8}
+
+\subsubsection{Question 1}
+
+Il faut dessiner une machine de Turing qui reconnait ce langage.
+
+\subsubsection{Question 2}
+
+Machine récursivement énumérable:
+\begin{itemize}
+  \item La machine va avoir un \#, puis un état ou elle va écrire tout les mots du langage à gauche du \#.
+  \item Après avoir écrit chaque mot, il va y avoir une transition vers une autre machine qui va recopier le mot à droite du \#.
+  \item On remets la tête de lecture sur le \#, et on entre l'état d'énumération.
+\end{itemize}
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \node[state, initial] at (0,0) (0){q0};
+  \end{tikzpicture}
+  \caption{Machine d'un langage récursivement énumérable}
+\end{figure}
+
+\newpage
+
+\subsection{Exercice 9}
+
+\textbf{Ce qu'on sait:}
+\begin{enumerate}
+  \item La machine parcours $t$ étapes, ayant chacune une transition.
+  \item La machine peux aller à droite, ou à gauche.
+  \item On a un alphabet $\tau$, avec des mots de longueur $s$.
+  \item Une machine déterministe qui repasse par une même configuration veut dire qu'elle repasse par un état.
+\end{enumerate}
+
+\textbf{Ce qu'on peux en conclure:}
+\begin{enumerate}
+  \item Donc, on peux consommer au maximum autant de cases qu'il y a eu d'étapes.
+  \item Un mouvement à gauche après un mouvement à droite ne consomme pas de nouvelle case,
+  le minimum étant donc deux cases quand on ne fait que aller à droite puis à gauche.
+  \item On a donc au maximum $\tau^s$ mots, ce qui donne au plus $|\tau|^s(s+1)|Q|$ configurations.
+  \item La machine ne s'arrête jamais, donc, si la machine s'arrête, cela veut dire qu'elle ne visite qu'une seule configuration à chaque fois.
+  Ce qui veut dire que le nombre de cases utilisées est bornée par le temps qu'on passe dans la machine, et aussi que le temps qu'on passe dans
+  la machine est borné par le nombre de cases qu'on utilise.
+\end{enumerate}
