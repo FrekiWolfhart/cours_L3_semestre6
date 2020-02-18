@@ -25,7 +25,7 @@ Par conséquent, $\forall \langle\ M\ \rangle \!\ ,w~\exists~M_{halt}(\langle\ M
   \begin{tikzpicture}
     \node[state, initial] (0){ref};
   \end{tikzpicture}
-  \caption{Machine qui refuse tout}
+  \caption{Machine qui refuse tout/tourne en boucle à l'infini}
 \end{figure}
 
 \subsection{Exercice 2}
@@ -109,3 +109,156 @@ Il suffit juste que M' prenne un mot w accepté par M, lui rajoute un a en premi
 \end{itemize}
 
 \subsubsection{Question 5}
+
+f(M) est une fonction qui prends un mot aw, et qui retourne le mot w, $\forall$w.
+
+Supposons $\exists$ u$\not\in$L, et f(w)=u si w ne commences pas par a.
+\begin{enumerate}
+  \item Montrer que, si w$\in$aL$\Rightarrow$f(w)$\in$L.
+  \begin{itemize}
+    \item Soit w$\in$aL$\Rightarrow$w=av, avec v$\in$L
+    \item donc f(w)=v et f(w)$\in$L.
+  \end{itemize}
+  \item Montrer que f(w)$\in$L$\Rightarrow$w$\in$aL.
+  \begin{itemize}
+    \item Soit w tel que f(w)$\in$L, alors f(w)$\neq$u
+    \item et w commence donc par a, c'est-à-dire w=av, donc f(w)=v
+    \item et v$\in$L donc av$\in$aL.
+  \end{itemize}
+\end{enumerate}
+
+Donc, on a bien une réductione de aL vers L, donc:
+\begin{itemize}
+  \item Si L est récursif, alors aL l'est aussi.
+  \item Si aL est récursif, alors L l'est aussi(question précédente).
+  \item Si L est récursivement énumérable, alors aL l'est aussi.
+  \item Si aL est récursivement énumérable, alors L l'est aussi(question précédente).
+\end{itemize}
+
+\subsubsection{Question 6}
+
+M$_1$ est la machine de Turing qui s'arrête tout le temps.
+M$_2$ est la machine de Turing qui tourne en boucle à L'infini.
+
+$\langle\ M_1\ \rangle \!\ \# \in L_u. \langle\ M_2\ \rangle \!\ \# \not\in L_u.$
+
+f est la fonction telle que f(a)=$\langle\ M_1\ \rangle \!\ $ \# et $\forall$ v$\neq$a, f(v)=$\langle\ M_2\ \rangle \!\ \# $.
+
+\begin{enumerate}
+  \item Montrer que w$\in$L$_{stupide}\Rightarrow$f(w)$\in$L$_u$.
+  \begin{itemize}
+    \item Soit w$\in$L$_{stupide}\Rightarrow$w=a.
+    \item f(w)=$\langle\ M_1\ \rangle \!\ $ \# $\Rightarrow$ f(w)$\in$L$_u$.
+  \end{itemize}
+  \item Montreer que f(w)$\in$L$_u\Rightarrow$w$\in$L$_{stupide}$
+  \begin{itemize}
+    \item Soit w tel que f(w)$\in$L$_u\Rightarrow$f(w)$\neq\langle\ M_2\ \rangle \!\ $ \#.
+    \item $\Rightarrow$f(w)=$\langle\ M_1\ \rangle \!\ $ \# donc w=a.
+    \item Donc, w$\in$L$_{stupide}$.
+  \end{itemize}
+\end{enumerate}
+
+\subsection{Exercice 3}
+
+\subsubsection{Question 1}
+
+D = \{$\langle\ M\ \rangle \!\ $|M s'arrête sur ab et ba\}
+
+\begin{enumerate}
+  \item Créer une réduction entre ce langage et un non décidable.
+  \item Utiliser le théorème de Rice.
+\end{enumerate}
+
+Cette propriété étant non-triviale, d'après le théorème de Rice, ce langage n'est pas décidable.
+Or, dans cet exercice, on veut faire des réductions. Donc, on doit trouver une réduction.
+
+L$_{halte}$ = \{$\langle\ M\ \rangle \!\ $|M s'arrête sur l'entrée vide\} n'est pas décidable.
+
+Donc, si on réduit L$_{halte}$ à D, on prouvera que D n'est pas décidable.
+
+On doit donc trouver une fonction qui va de L$_{halte}$ vers D.
+
+Soit f la fonction telle que f($\langle\ M\ \rangle \!\ $) = $\langle\ M'\ \rangle \!\ $ où M' est la machine qui:
+\begin{itemize}
+  \item sur ab accepte
+  \item sur ba efface ba, et lance M
+  \item sur le reste refuse
+\end{itemize}
+
+De plus, $\forall$ w qui n'est pas un code de MT, f(w)=w.
+
+\begin{enumerate}
+  \item Montrer que w$\in$L$_{halte}\Rightarrow$f(w)$\in$D.
+  \begin{itemize}
+    \item soit w$\in$L$_{halte}\Rightarrow$w=$\langle\ M\ \rangle \!\ \in$L$_{halte}$.
+    \item donc, f(w) est un code de machine, et la machine associée a des propriétés similaires à M'.
+    \item Donc, f(w)$\in$D.
+  \end{itemize}
+  \item Montrer que $\forall$w, f(w)$\in$D$\Rightarrow$w$\Rightarrow$L$_{halte}$
+  \begin{itemize}
+    \item f(w)=$\langle\ M'\ \rangle \!\ \Rightarrow$ w = $\langle\ M\ \rangle \!\ $
+    \item comme $\langle\ M'\ \rangle \!\ $ donc M' s'arrête sur ba.
+    \item Mais, sur ba, M' efface ba et lance M
+    \item donc M s'arrête sur l'entrée vide
+    \item donc w = $\langle\ M\ \rangle \!\ \in$L$_{halte}$.
+  \end{itemize}
+\end{enumerate}
+
+Donc, on a bien $\langle\ M\ \rangle \!\ \in$L$_{halte}\Leftrightarrow$ f(w)$\in$D.
+
+Étant donné que L$_{halte}$ n'est pas décidable, la réduction prouve que D n'est pas décidable non plus.
+
+\subsubsection{Question 2}
+
+Langage E$\times$F, avec:
+\begin{itemize}
+  \item E=\{$\langle\ M\ \rangle \!\ $| b$\in$L(M)\}
+  \item F=\{$\langle\ M\ \rangle \!\ $| a$\in$L(m) ou b$\in$L(M)\}
+\end{itemize}
+
+E$\times$F est une paire de mots tel que le premier mot est dans E, et le second mot est dans F.
+
+On va construire une réducion afin de prouver que ce langage n'est pas décidable.
+
+On prends M$_F$, la machine qui accepte tout, afin d'artificiellement oublier le langage F.\\
+On ignore la seconde coordonnée car elle accepte tout le temps.
+
+Soit f, la fonction telle que f(M)=$\begin{pmatrix}\langle\ M'\ \rangle \!\ \\ \langle\ M_F\ \rangle \!\ \end{pmatrix}$,\\
+où M' est la machine qui efface b et lance M, et accepte si M s'arrête.
+
+\begin{enumerate}
+  \item Montrer que $\langle\ M\ \rangle \!\ \in$L$_{halte}\Rightarrow$f($\langle\ M\ \rangle \!\ $)$\in$E$\times$F.
+  \begin{itemize}
+    \item Soit $\langle\ M\ \rangle \!\ \in$L$_{halte}$ et $\begin{pmatrix}\langle\ M'\ \rangle \!\ \\ \langle\ M_F\ \rangle \!\ \end{pmatrix}$=
+    f($\langle\ M\ \rangle \!\ $)
+    \item Si on lance M' sur l'entrée b, alors elle lance M sur l'entrée vide, et M s'arrête, donc M' accepte, donc M'$\in$E.
+    \item Donc, f($\langle\ M\ \rangle \!\ $)$\in$E$\times$F.
+  \end{itemize}
+  \item Montrer que f($\langle\ M\ \rangle \!\ $)$\in$E$\times$F$\Rightarrow$$\langle\ M\ \rangle \!\ \in$L$_{halte}$
+  \begin{itemize}
+    \item Soit $\langle\ M\ \rangle \!\ $ tel que f($\langle\ M\ \rangle \!\ $)$\in$E$\times$F.
+    \item $\Rightarrow$f($\langle\ M\ \rangle \!\ $)=$\begin{pmatrix}\langle\ M'\ \rangle \!\ \\ \langle\ M_F\ \rangle \!\ \end{pmatrix}$
+    tel que $\langle\ M'\ \rangle \!\ $)$\in$E.
+    \item Donc, $\langle\ M'\ \rangle \!\ $) accepte b, or, sur b, $\langle\ M'\ \rangle \!\ $) efface b et lance M sur le vide, et accepte si et seulement si
+    M s'arrête sur l'entrée vide.
+    \item Or, vu que M' accepte, M s'arrête sur l'entrée vide.
+    \item Donc, $\langle\ M\ \rangle \!\ \in$L$_{halte}$.
+  \end{itemize}
+\end{enumerate}
+
+Donc, on a bien une réduction de L$_{halte}$ vers E$\times$F, et on sait que L$_{halte}$ n'est pas décidable.\\
+Par conséquent, E$\times$F n'est pas décidable.
+
+\subsubsection{Question 5}
+
+$\forall$ MT M, L$_M$=\{w|w$\in$L(M)\} est RE.
+
+L$_M$=\{w| w est accepté par M\} donc, L$_M$ est RE.
+
+\subsubsection{Question 7}
+
+I=\{$\langle\ M\ \rangle \!\ $|$\langle\ M\ \rangle \!\ $ < 2$^{2^{1024}}$ et L(M)={a}\}
+
+À travers le 2$^{2^{1024}}$, on limite le nombre de machines, ce qui crée un langage fini, car il a un nombre de machines finies.\\
+Or, un langage fini est forcément décidable.\\
+Par conséquent, ce langage est décidable.
