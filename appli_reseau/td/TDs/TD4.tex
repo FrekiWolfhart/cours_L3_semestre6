@@ -1,0 +1,164 @@
+\section{TD 4}
+
+\subsection{Exercice 1}
+
+\subsubsection{Question 1}
+
+Afin d'utiliser les threads en Java, il faut créer une classe que étend la classe Thread.
+La méthode principale pour un thread est start.
+
+\subsubsection{Question 2}
+
+\begin{lstlisting}[language=Java,caption={code de la classe SocketHandler},captionpos=b]
+  public class SocketHandler implements Runnable{
+    private Socket socket;
+    private List<String> messages;
+
+    public SocketHandler(Socket socket){
+      this.socket = socket;
+      messages = new ArrayList<String>();
+    }
+
+    // TODO: Ajouter la gestion d'exceptions
+    @Override
+    void run(){
+      BufferedReader input = new BufferedReader(new InputStreamReader(this.socket.getInputStream());
+      String line;
+      while((line = input.readLine()) != null) this.messages.add(line);
+
+      socket.close();
+    }
+
+    public Socket getSocket(){
+      return this.socket;
+    }
+
+    public List<String> getMessages(){
+      return this.messages;
+    }
+
+    public void setSocket(Socket socket){
+      this.socket = socket;
+    }
+  }
+\end{lstlisting}
+
+\subsection{Exercice 2}
+
+\subsubsection{Question 1}
+
+On peux lui faire créer un thread par client TCP lu.
+
+\begin{lstlisting}[language=Java,caption={Serveur TCP multi-thread en trois lignes},captionpos=b]
+  ServerSocket server = new ServerSocket(1234);
+  while(true)
+    new Thread(new SocketHandler(server.accept())).start();
+\end{lstlisting}
+
+\subsubsection{Question 2}
+
+Comportement eronné(duplication potentielles) et imprévisible.
+
+\subsubsection{Question 3}
+
+La structure ne sera modifiée que par un seul à la fois via un système de sémaphores et de section critiques, si la structure est sérialisée.
+
+\begin{lstlisting}[language=Java,caption={Exemple d'écriture sur la même structure de données par deux threads},captionpos=b]
+  class Data{
+    public int data=0;
+  }
+
+  class Job implements Runnable{
+    Data d;
+
+    Job(Data d){
+      this.data = data;
+    }
+
+    void run(){
+      int newData = d.data+1;
+      d.data = newData;
+    }
+  }
+
+  public static void main(String[] args){
+    Data d = new Data();
+
+    Thread A = new Thread(new Job(d).start());
+    Thread B = new Thread(new Job(d).start());
+
+    System.out.println(d.data);
+  }
+\end{lstlisting}
+
+La donnée affichée sera soit 1 soit 2.
+
+\subsubsection{Question 4}
+
+Il n'y a aucun moyen.
+
+\subsection{Exercice 3}
+
+\subsubsection{Question 1}
+
+Pour la communication entre un socket server et un socket client, il faut utiliser les classes ServerSocketChannel et SocketChannel de java.nio.channels.
+
+\subsubsection{Question 2}
+
+Utiliser Java NIO pour la communication entre sockets a comme avantages:
+\begin{itemize}
+  \item non-bloquant
+  \item pas de threads
+  \item plus optimisé
+\end{itemize}
+
+Il est globalement très efficace.
+
+\subsubsection{Question 3}
+
+On utilise un Selector pour les communications entre sockets car il trouve ce qu'il faut faire dans l'instant.
+C'est-à-dire, il dit quel channel est prêt à travailler, et comment.
+
+\begin{lstlisting}[language=Java,caption={Exemple selector},captionpos=b]
+  selector.select();
+  Set<SelectionKey> selectedKeys = selector.selectedKeys();
+  Iterator<SelectionKey> iterator = selectedKeys.iterator();
+  while(iterator.hasNext()){
+    SelectionKey key = iterator.next();
+  }
+\end{lstlisting}
+
+\begin{figure}[h!]
+  \centering
+    \begin{tikzpicture}
+      \node[state] at (0,0)   (0){SelectionKey};
+      \node[state] at (-2,-2) (1){Channel};
+      \node[state] at (2,-2)  (2){Selector};
+      \draw[->] (2) edge[right] node{select()}  (0)
+                (0) edge[left]  node{channel()} (1)
+                (1) edge[below] node{selector.register($\begin{matrix} channel,\\ SelectionKey.OP\_READ,\\ SelectionKey.OP\_WRITE\\
+                                                      SelectionKey.OP\_CONNECT\\ SelectionKey.OP\_ACCEPT \end{matrix}$)} (2);
+    \end{tikzpicture}
+  \caption{Schéma classes}
+\end{figure}
+
+Les clés en majuscules sont à choisir en fonction de ce dont on a besoin.
+
+\subsubsection{Question 4}
+
+\begin{lstlisting}[language=Java,caption={Serveur Mono-Thread qui gère jusqu'à 10 clients en simultanés},captionpos=b]
+  Selector selector = Selector.open();
+  ServerSocketChannel server = ServerSocketChannel().open;
+  server.configureBlocking(false);
+  selector.register(server, SelectionKey.OP_ACCEPT);
+  // Exemple selector, code ensuite dans la boucle while
+  if(key.isAcceptable()){
+    SocketChannel client = server.accept();
+    selector.register(client, (SelectionKey.OP_WRITE|SelectionKey.OP_READ));
+    client.configureBlocking(false);
+  }
+  if(key.isReadable()){
+    SocketChannel client = key.channel();
+    // lecture
+  }
+\end{lstlisting}
