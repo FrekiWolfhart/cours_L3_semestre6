@@ -1,0 +1,196 @@
+\section{TD4}
+
+\subsection{Exercice 1}
+
+\subsubsection{Question 1}
+
+Famille des langages non r\'ecursifs.
+
+\begin{itemize}
+  \item L$_1$=\{$\langle\ M\ \rangle \!\ $
+  | M accepte a\} est un langage
+  non r\'ecursif.
+  \item L$_2$=\{$\langle\ M\ \rangle \!\ $
+  | M n'accepte pas a.\} est un langage 
+  non r\'ecursif.
+\end{itemize}
+
+Cl\^oture par intersection:
+
+Or, l'intersection de L$_1$ et L$_2$
+est vide, et le langage vide est
+r\'ecursif.\\
+Donc, l'ensemble des langages
+non r\'ecursifs n'est pas clos par
+intersection.\\\\
+
+Cl\^oture par union:
+
+Or, l'union de L$_1$ et L$_2$ est
+n'importe quel code de machine, qui est
+r\'ecursif.\\
+Donc, l'ensemble des langages
+non r\'ecursifs n'est pas clos par
+union.
+
+\subsubsection{Question 2}
+
+Famille des langages
+non r\'ecursivement \'enum\'erables.\\
+Pour prouver un langage non
+r\'ecursivement \'enum\'erable,
+on peux faire une r\'eduction
+vers L$_{\bar{u}}$, ou utiliser le
+th\'eor\`eme de Rice.\\\\
+
+Cl\^oture par compl\'ementation:
+
+Le compl\'ementaire de L$_u$ est
+n'est r\'ecursivement \'enum\'erable pas,
+alors que L$_u$ l'est.\\
+Donc, l'ensemble des langages
+non r\'ecursivement \'enum\'erables
+n'est pas clos par compl\'ementation.\\\\
+
+Cl\^oture par intersection:
+
+\begin{itemize}
+  \item L$_1$=\{$\langle\ M\ \rangle \!\ $
+  \# 0 | a $\not\in$ L(M)\} est
+  non r\'ecursivement \'enum\'erable.
+  \item L$_2$=\{$\langle\ M\ \rangle \!\ $
+  \# 1 | M n'accepte pas a\} est
+  non r\'ecursivement \'enum\'erable.
+\end{itemize}
+
+L'intersection de L$_1$ et de L$_2$ est
+vide, et le langage vide est r\'ecursif.
+Donc, l'ensemble des langages
+non r\'ecursivement \'enum\'erables
+n'est pas clos par intersection.\\\\
+
+Cl\^oture par union:
+
+\begin{itemize}
+  \item L$_1$=\{$\langle\ M\ \rangle \!\ $
+  | a $\not\in$ L(M)\} est
+  non r\'ecursivement \'enum\'erable.
+  \item L$_2$=\{$\langle\ M\ \rangle \!\ $
+  | a $\in$ L(M) ou b $\not\in$ L(M)\} est
+  non r\'ecursivement \'enum\'erable.
+\end{itemize}
+
+L'union de L$_1$ et de L$_2$ est
+l'ensemble des codes de machines, qui est
+r\'ecursif.\\
+Donc, l'ensemble des langages
+non r\'ecursivement \'enum\'erables
+n'est pas clos par union.
+
+\subsubsection{Question 3}
+
+Famille des langages r\'ecursifs.
+
+Donc, $\forall$ L non r\'ecursif
+$\Rightarrow~\bar{L}$ non r\'ecursif.
+
+Or, $\forall$ L, L r\'ecursif
+$\Rightarrow~\bar{L}$ r\'ecursif.
+
+Donc, par contrapos\'ee,
+$\forall$ L, $\bar{L}$ non recursif
+$\Rightarrow$ L non recursif.
+
+On choist comme langage L $\bar{L}$, et donc,
+la contrapos\'ee devient:\\
+$\forall$ L non r\'ecursif
+$\Rightarrow~\bar{L}$ non r\'ecursif.
+
+\subsection{Exercice 2}
+
+On ne peux utiliser le th\'eor\`eme de
+Rice que sur une propri\'et\'e
+non triviale.
+
+\subsubsection{Question 1}
+
+\{L | L=a$^*$\} doit \^etre montr\'ee
+non trivial.
+
+Afin de le montrer non trivial, on doit
+trouver deux machines de Turing,
+une qui accepte la propri\'et\'e et une
+qui la refuse.
+\begin{enumerate}
+  \item M$_1$, la machine qui boucle sur
+  des a jusqu'\`a la fin du mot,
+  accepte la propri\'et\'e.
+  \item M$_2$, la machine qui refuse tout,
+  refuse la propri\'et\'e.
+\end{enumerate}
+
+Par cons\'equent, la propri\'et\'e est
+non-triviale.\\
+Donc, on ne peux pas d\'ecider si le
+langage d'une machine est a$^*$, et donc
+, d'apr\`es le th\'eor\`eme de Rice,
+la propri\'et\'e n'est pas r\'ecursive.
+
+\subsubsection{Question 2}
+
+\{L | aa $\in$ L, et
+$\forall$k$\neq$2:a$^k\not\in$L\} doit
+\^etre montr\'ee non triviale.
+
+On doit donc trouver deux machines de
+Turing, une qui accepte et une qui refuse
+la propri\'et\'e.
+\begin{enumerate}
+  \item M$_1$, la machine qui n'accepte
+  que un a suivi d'un a suivi d'un blanc
+  accepte la propri\'et\'e.
+  \item M$_2$, la machine qui refuse tout,
+  refuse la propri\'et\'e.
+\end{enumerate}
+
+Par cons\'equent, la propri\'et\'e est
+non-triviale.\\
+Donc, on ne peux pas d\'ecider si le
+langage d'une machine est aa, et donc
+, d'apr\`es le th\'eor\`eme de Rice,
+la propri\'et\'e n'est pas r\'ecursive.
+
+\subsubsection{Question 3}
+
+\{L | ab $\not\in$ L, ou $\exists$k :
+ab$^k\in$ L\} doit \^etre montr\'ee
+non triviale.
+
+Or, cette propri\'et\'e contient tout
+les langages, \'etant donn\'e
+que soit elle contient ab, soit elle ne
+contient pas ab, et que tout les langages
+soit contiennent ab, soit ne contiennent
+pas ab.\\
+Par cons\'equent, elle est triviale
+pour toute machine M.
+
+\subsubsection{Question 4}
+\{\{$\langle\ M\ \rangle \!\ $
+| M n'accepte pas
+$\langle\ M\ \rangle \!\ $\}\}
+doit \^etre montr\'ee non triviale.
+
+On peux facilement trouver une machine
+qui r\'efute cette propri\'et\'e, mais,
+si on essaye de trouver une machine
+qui accepte cette propri\'et\'e,
+on tombe sur une contradiction,
+peu importe si le langage de la machine
+en question est dans ou hors du langage.\\
+Donc, cette propri\'et\'e est triviale.
+
+\subsubsection{Question 5}
+\{\{$\langle\ M\ \rangle \!\ $
+| M accepte $\langle\ M\ \rangle \!\ $\}\}
+doit \^etre montr\'ee non triviale.
