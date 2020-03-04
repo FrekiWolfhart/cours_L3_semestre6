@@ -1,0 +1,136 @@
+\section{TD 5}
+
+\subsection{Exercice 1}
+
+\subsubsection{Question 1}
+
+Afin d'assurer la communication non-bloquante pour la
+lecture ou l'\'ecriture dans un SocketChannel en Java NIO
+il faut utiliser\\ la m\'ethode
+channel.configureBlocking(false).
+
+Les objets de type SelectableChannels ont comme
+propri\'et\'es:
+\begin{itemize}
+  \item Avoir une configuration bloquante ou non bloquante.
+  \item On peux l'enregistrer dans un Selector.
+\end{itemize}
+
+
+\subsubsection{Question 2}
+
+2 octets seront transf\'er\'es vers socketChannel.
+
+Les nouvelles valeurs seront:
+\begin{itemize}
+  \item \emph{Position} = 3
+  \item \emph{Limit} = 3
+  \item \emph{Capacity} = 8
+\end{itemize}
+
+
+\subsubsection{Question 3}
+
+Les diff\'erences entre Buffer.clear() et Buffer.flip() sont:
+\begin{itemize}
+  \item Buffer.clear() remet la position \`a 0.
+  \item Buffer.flip() remet la position \`a gauche des
+  donn\'ees qu'on a \'ecrit, et la limite \`a droite des
+  donn\'ees afin de ne pouvoir travailler que sur des
+  donn\'ees qu'on \`a d\'ej\`a \'ecrites.
+\end{itemize}
+
+
+\subsection{Exercice 2}
+
+\subsubsection{Question 1}
+
+La classe Selector est un classe qui donne des informations
+sur des Channel sur lesquels on veut travailler, via
+les SelectionKey.
+
+La classe SelectionKey est une interface entre le Selector
+et les Channel, qui permet de au Selector de
+r\'ecup\'erer des informations sur le Channel.
+
+La question est mal pos\'ee, on demande quel quantit\'e de
+types plut\^ot qu'une quantit\'e de cl\'es, et on peux en
+associer 4 \`a un Selector.
+
+\subsubsection{Question 2}
+
+On peux enregistrer un SocketChannel \`a un Selector pour
+attendre les \'ev\'enements de type \'ecriture en utilisant
+la m\'ethode\\socketChannel.register(selector,
+SelectionKey.OP\_WRITE).
+
+On peux enregistrer un ServerSocketChannel \`a un
+Selector pour attendre les demandes de connection de clients
+avec la m\'ethode\\
+serverSocketChannel.register(selector,
+SelectionKey.OP\_ACCEPT).
+
+\subsubsection{Question 3}
+
+\begin{lstlisting}[language=Java,caption={Selector
+    qui attend des demandes de connection \`a un serveur
+    et des demandes d'\'ecriture d'un client},captionpos=b]
+  // Java NIO cree des objets avec open() au lieu de new.
+  Selector selector = Selector.open();
+  // Il ne faut pas oublier de mettre les channels non bloquants.
+  ssc.configureBlocking(false);
+  csc.configureBlocking(false);
+  ssc.register(selector, SelectionKey.OP_ACCEPT);
+  csc.register(selector, SelectionKey.OP_WRITE);
+  while(true){
+    selector.select();
+    Iterator<Set<SelectionKey> > iterator = selector.selectedKey().iterator();
+    while(iterator.hasNext()){
+      SelectionKey key = iterator.next();
+      if(key.isAcceptable()){
+        scs.accept();
+      }
+      if(key.isWriteable()){
+        // ecrire
+      }
+      iterator.remove();
+    }
+  }
+\end{lstlisting}
+
+\subsection{Exercice 3}
+
+\subsubsection{Question 1}
+
+Il est possible d'utiliser un seul Selector partag\'e par
+plusieurs threads.
+
+La m\'ethode select(\`) est prot\'eg\'ee, alors que la
+gestion des cl\'es non. Il faut donc toujours v\'erifier
+les cl\'es lors du multi-threading.
+
+\subsubsection{Question 2}
+
+La m\'ethode Selector.wakeup() sert \`a sort un thread
+de la s\'election lorsqu'il est bloqu\'e.
+
+On a besoin de l'utiliser quand on a besoin de modifier
+le selector.
+
+\subsubsection{Question 3}
+
+\begin{enumerate}
+  \item Communication d'un channel vers plusieurs buffers:
+  \begin{itemize}
+    \item SocketChannel.write(ByteBuffer[] srcs)
+    \item ScatteringByteChannel.write(ByteBuffer[] srcs)(interface)
+  \end{itemize}
+  \item Communication de plusieurs buffers vers un channel:
+  \begin{itemize}
+    \item SocketChannel.read(ByteBuffer[] dsts)
+    \item GatheringByteChannel.read(ByteBuffer[] dsts)(interface)
+  \end{itemize}
+\end{enumerate}
+
+Les deux interfaces impl\'ementent les m\'ethodes dans
+le SocketChannel.
