@@ -181,7 +181,9 @@ pour toute machine M.
 $\langle\ M\ \rangle \!\ $\}\}
 doit \^etre montr\'ee non triviale.
 
-On peux facilement trouver une machine
+Deux fa\c{c}ons de prouver qu'elle est triviale:
+\begin{enumerate}
+  \item On peux facilement trouver une machine
 qui r\'efute cette propri\'et\'e, mais,
 si on essaye de trouver une machine
 qui accepte cette propri\'et\'e,
@@ -189,8 +191,124 @@ on tombe sur une contradiction,
 peu importe si le langage de la machine
 en question est dans ou hors du langage.\\
 Donc, cette propri\'et\'e est triviale.
+  \item \'Etant donn\'e qu'on ne peux pas trouver de machine
+reconnaissant le langage, on ne peux pas trouver de
+machine reconnaissant la propri\'et\'e.\\
+Par d\'efinition, la propri\'et\'e est donc triviale.
+\end{enumerate}
 
 \subsubsection{Question 5}
 \{\{$\langle\ M\ \rangle \!\ $
 | M accepte $\langle\ M\ \rangle \!\ $\}\}
 doit \^etre montr\'ee non triviale.
+
+Cette propri\'et\'e \'etant le compl\'ementaire de
+celle de la question 4, elle ne peux pas \^etre
+r\'ecursive.
+
+M$_1$ est la machine qui lit son entr\'ee et refuse si
+ce n'est pas un code de machine.\\
+Si son entr\'ee est de la forme  $\langle\ M\ \rangle \!\ $,
+alors elle simule M sur $\langle\ M\ \rangle \!\ $, et
+accepte si M accepte $\langle\ M\ \rangle \!\ $.\\
+Donc, cette machine reconnait la propri\'et\'e P.
+
+La machine qui accepte tout est une machine qui n'accepte
+pas P.
+
+Par cons\'equent, P est non-triviale.
+
+\subsubsection{Question 6}
+
+On a un langage L, et la propri\'et\'e est telle qu'elle
+ne contient que ce langage.
+
+Il existe deux cas:
+\begin{enumerate}
+  \item Si L est r\'ecursivement \'enum\'erable:
+  \begin{itemize}
+    \item $\exists$ M$_1$ telle que L(M$_1$)=L.
+    \begin{enumerate}
+      \item Soit L=$\emptyset$
+      \begin{itemize}
+        \item M$_2$ est la machine qui accepte tout
+        \item L(M$_2$)=$\Sigma^*\neq\emptyset$
+        \item L(M$_2$)$\not\in$P.
+      \end{itemize}
+      \item L$\neq\emptyset$
+      \begin{itemize}
+        \item M$_2$ : L(M$_2$)=$\emptyset\not\in$P.
+      \end{itemize}
+    \end{enumerate}
+    \item $\exists$ M$_2$ telle que L(M$_2$)$\not\in$P.
+  \end{itemize}
+  Par cons\'equent, P est non triviale.
+  \item Si L n'est pas r\'ecursivement \'enum\'erable:
+  \begin{itemize}
+    \item $\not\exists$ M$_1$ telle que L(M$_1$)=L.
+    \item $\forall$ M$_1$, L(M$_1$)$\neq$L.
+    \item Par cons\'equent, P est triviale.
+  \end{itemize}
+\end{enumerate}
+
+\subsection{Exercice 3}
+
+Pour obtenir une réduction Turing many-one d’une fonction
+f:A$\rightarrow$B \`a une fonction g:C$\rightarrow$D,
+il faut donner deux fonctions calculables h:A$\rightarrow$C
+et h':D$\rightarrow$B telles que, $\forall$ a$\in$A on ait
+f(a) = h'(g(h(a))). 
+Ainsi on en déduit que si l’on sait calculer g,
+alors on sait calculer f.
+
+Pour ce exercice, la fonction halt est la fonction qui
+calcule l'arr\^et.
+
+\subsubsection{Question 1}
+
+h: ($\langle\ M\ \rangle \!\ $, w) $\rightarrow$
+($\langle\ M'\ \rangle \!\ $, w) tel que M' supprime le b
+de t\^ete puis simule M sur le reste de l'entr\'ee.
+Si il n'y a pas de b, elle refuse.
+
+h': la fonction identit\'e.
+
+Montrons que halt($\langle\ M\ \rangle \!\ $, w) =
+h'(f$_1$(h($\langle\ M\ \rangle \!\ $, w))).
+
+h'(f$_1$(h($\langle\ M\ \rangle \!\ $, w))) =
+f$_1$(h($\langle\ M\ \rangle \!\ $, w))
+
+f$_1$(h($\langle\ M\ \rangle \!\ $, w)) =
+f$_1$(h($\langle\ M'\ \rangle \!\ $, w)) =
+\begin{itemize}
+  \item[] 0 si M'(bw) ne s'arr\^ete pas.
+  \item[] 1 sinon.
+\end{itemize}
+
+=
+\begin{itemize}
+  \item[] 0 si M(w) ne s'arr\^ete pas.
+  \item[] 1 sinon.
+\end{itemize}
+
+= halt($\langle\ M\ \rangle \!\ $, w).
+
+
+\subsection{Exercice 4}
+
+f : suite de Syracuse
+
+Soit M, une machine qui applique f sur son entr\'ee, et
+qui recommence tant que le r\'esultat est diff\'erent de 1.
+
+M s'arr\^ete sur toutes les entr\'ees si et seulement si
+la conjecture de Collatz est vraie.
+
+Par cons\'equent,si on arrive \`a prouver l'arr\^et de M,
+on prouve la conjecture de Collaz.
+
+Or, la fonction halt n'est pas calculable.
+
+On ne peux donc pas prouver la conjecture de Collaz avec
+des machines de Turing.
